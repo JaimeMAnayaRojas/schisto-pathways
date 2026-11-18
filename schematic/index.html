@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Schistocephalus–stickleback metabolic network: interactive Figure S1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f5f0; --ink:#1f2328; --muted:#5d6670; --line:#d9d4c8; --card:#fffdf8;
+  --D:#1b7f5a; --C:#2f6db5; --B:#7a7f87; --H:#c0621a;
+  --r-diet:#efe7d3; --r-endo:#eae3f2; --r-brain:#e3ecf5; --r-host:#e9efe4; --r-neuro:#e6eef3; --r-para:#f5ead9; --r-imm:#f6e1df;
+  --accent:#8a3b2a;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#16181b; --ink:#e7e4dd; --muted:#a2a8b0; --line:#3a3d42; --card:#1e2125;
+    --D:#4cc490; --C:#6fa3e6; --B:#9aa0a8; --H:#ec9a5a;
+    --r-diet:#2a271f; --r-endo:#27232f; --r-brain:#1f2731; --r-host:#212a20; --r-neuro:#1f282d; --r-para:#2e271d; --r-imm:#311f1d; --accent:#e59a85;}
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:15px;line-height:1.5}
+header{padding:22px 24px 10px;max-width:1500px;margin:0 auto}
+header h1{font-family:"Source Serif 4",Georgia,serif;font-weight:600;font-size:1.55rem;line-height:1.25;margin:0 0 4px}
+header h1 em{font-weight:400}
+header p{margin:0;color:var(--muted);max-width:900px}
+.layout{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(340px,1fr);gap:20px;max-width:1500px;margin:0 auto;padding:10px 24px 40px}
+@media (max-width:980px){.layout{grid-template-columns:1fr}}
+.figwrap{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;position:sticky;top:10px;align-self:start}
+@media (max-width:980px){.figwrap{position:static}}
+.scroller{overflow-x:auto;-webkit-overflow-scrolling:touch}
+svg#fig{display:block;width:100%;min-width:720px;height:auto}
+.toolbar{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;margin:2px 2px 10px;font-size:.82rem;color:var(--muted)}
+.lg{display:inline-flex;align-items:center;gap:6px;cursor:pointer;user-select:none;border:1px solid var(--line);border-radius:999px;padding:3px 10px;background:transparent;color:var(--ink);font:inherit}
+.lg[aria-pressed="false"]{opacity:.4}
+.lg svg{width:26px;height:8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 2px 2px}
+.chip{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:4px 11px;font:inherit;font-size:.82rem;cursor:pointer}
+.chip:hover{border-color:var(--accent)}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.region rect{stroke:none}
+.region text{font-size:12.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;fill:var(--muted)}
+.node{cursor:pointer}
+.node rect{fill:var(--card);stroke:var(--ink);stroke-opacity:.35;stroke-width:1;transition:all .2s}
+.node text{font-size:12.5px;fill:var(--ink);pointer-events:none}
+.node:hover rect{stroke-opacity:1;stroke-width:1.6}
+.node.hl rect{stroke:var(--accent);stroke-opacity:1;stroke-width:2.2}
+.edge path.vis{fill:none;stroke-width:2;transition:opacity .2s}
+.edge path.hit{fill:none;stroke:transparent;stroke-width:14;cursor:pointer}
+.edge.D path.vis{stroke:var(--D)} .edge.C path.vis{stroke:var(--C);stroke-dasharray:7 4}
+.edge.B path.vis{stroke:var(--B);stroke-dasharray:2 3} .edge.H path.vis{stroke:var(--H);stroke-dasharray:1 5;stroke-linecap:round;stroke-width:2.6}
+.edge.hl path.vis{stroke-width:3.4}
+.edge.hidden{display:none}
+svg.focus .node:not(.hl){opacity:.22}
+svg.focus .edge:not(.hl){opacity:.12}
+svg.focus .region{opacity:.75}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px 22px;min-height:400px}
+.panel h2{font-family:"Source Serif 4",Georgia,serif;font-weight:600;font-size:1.35rem;line-height:1.25;margin:0 0 6px}
+.panel .kicker{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:4px}
+.panel p{font-family:"Source Serif 4",Georgia,serif;font-size:1.02rem;line-height:1.6;margin:.55em 0}
+.panel h3{font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:18px 0 6px}
+.badges{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 4px}
+.badge{font-size:.72rem;font-weight:600;border-radius:4px;padding:2px 7px;color:#fff}
+.badge.D{background:var(--D)}.badge.C{background:var(--C)}.badge.B{background:var(--B)}.badge.H{background:var(--H)}
+ul.ev{list-style:none;padding:0;margin:0}
+ul.ev li{display:grid;grid-template-columns:96px 1fr;gap:10px;padding:7px 0;border-top:1px solid var(--line);font-size:.9rem}
+ul.ev li .badge{justify-self:start;align-self:start;margin-top:2px}
+.abt{border-left:3px solid var(--accent);padding:2px 0 2px 14px;margin:10px 0}
+.abt p{margin:.35em 0}
+.abt b{font-family:"IBM Plex Sans",sans-serif;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-right:4px}
+.test{background:color-mix(in srgb,var(--H) 10%,transparent);border-radius:6px;padding:10px 12px;font-size:.9rem}
+a.ref{color:var(--accent);text-decoration:none;font-weight:500;cursor:pointer;white-space:nowrap}
+a.ref:hover{text-decoration:underline}
+ol.refs{padding-left:0;list-style:none;font-size:.82rem;color:var(--muted);margin:0}
+ol.refs li{padding:4px 0;border-top:1px dotted var(--line)}
+ol.refs li.flash{background:color-mix(in srgb,var(--accent) 15%,transparent)}
+ol.refs a{color:var(--muted)}
+.chooser button{display:block;width:100%;text-align:left;margin:6px 0;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--ink);font:inherit;cursor:pointer}
+.chooser button:hover{border-color:var(--accent)}
+.nav{display:flex;justify-content:space-between;margin-top:22px;gap:10px}
+.nav button{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:8px;padding:7px 12px;font:inherit;font-size:.85rem;cursor:pointer}
+.nav button:hover{border-color:var(--accent)}
+footer{max-width:1500px;margin:0 auto;padding:0 24px 30px;color:var(--muted);font-size:.8rem}
+</style>
+</head>
+<body>
+<header>
+  <h1>Metabolic, neuroendocrine and immune interactions in the <em>Gasterosteus aculeatus</em>–<em>Schistocephalus solidus</em> system</h1>
+  <p>Interactive companion to Supplementary Figure S1. Select a pathway, a box or an arrow to see what we know, how strong the evidence is, and what remains to be tested. Line style shows the level of evidence.</p>
+</header>
+
+<div class="layout">
+  <section class="figwrap" aria-label="Pathway diagram">
+    <div class="toolbar" id="legend"></div>
+    <div class="scroller"><svg id="fig" viewBox="0 0 1100 780" role="img" aria-label="Conceptual network of host and parasite metabolism">
+      <defs id="defs"></defs>
+      <g id="regions"></g><g id="edges"></g><g id="nodes"></g>
+    </svg></div>
+    <div class="chips" id="chips"></div>
+  </section>
+  <section class="panel" id="panel" aria-live="polite"></section>
+</div>
+<footer>Adapted and condensed from the Supplementary Note “Metabolic background”. Diagram is a schematic reconstruction; arrows denote possible functional relationships, not quantified carbon, nitrogen or signalling fluxes.</footer>
+
+<script>
+// ---------- Evidence levels ----------
+const LEVELS = {
+  D:{name:"Direct", long:"Shown in the stickleback–S. solidus system"},
+  C:{name:"Comparative", long:"Shown in other teleosts or cestodes"},
+  B:{name:"Biochemistry", long:"Established pathway; flux in this system unquantified"},
+  H:{name:"Hypothesis", long:"Plausible, not yet tested"}
+};
+
+// ---------- References ----------
+const REFS = {
+ 1:"Polzer M, Conradt U (1994) Identification and partial characterization of the proteases from different developmental stages of Schistocephalus solidus. Int J Parasitol 24:967–973. doi:10.1016/0020-7519(94)90161-9",
+ 2:"Hopkins CA (1952) Studies on cestode metabolism. II. The utilization of glycogen by Schistocephalus solidus in vitro. Exp Parasitol 1:196–213. doi:10.1016/0014-4894(52)90011-8",
+ 3:"Cunningham EJ, Tierney JF, Huntingford FA (1994) Effects of the cestode Schistocephalus solidus on food intake and foraging decisions in the three-spined stickleback. Ethology 97:65–75. doi:10.1111/j.1439-0310.1994.tb01029.x",
+ 4:"Hesse T, Nachev M, Khaliq S, et al. (2023) A new technique to study nutrient flow in host–parasite systems by carbon stable isotope analysis of amino acids and glucose. Sci Rep 13:1054.",
+ 5:"Khaliq S, Nachev M, Riekenberg PM, et al. (2025) Trophic dynamics and metabolic pathways in host parasite interactions revealed by nitrogen isotope analysis of amino acids in multiple tissues. Sci Rep 15:32600. doi:10.1038/s41598-025-19052-0",
+ 6:"Yohannes E, Grimm C, Rothhaupt K-O, Behrmann-Godel J (2017) The effect of parasite infection on stable isotope turnover rates of δ15N, δ13C and δ34S in multiple tissues of Eurasian perch. PLOS ONE 12:e0169058.",
+ 7:"Behrmann-Godel J, Yohannes E (2015) Multiple isotope analyses of the pike tapeworm Triaenophorus nodulosus reveal peculiarities in consumer–diet discrimination patterns. J Helminthol 89:238–243.",
+ 8:"Nachev M, Riekenberg PM, Jochmann MA, et al. (2025) Host–parasite trophic interactions as revealed by stable isotope analyses. In: Smit NJ, Sures B (eds) Aquatic Parasitology. Springer, Cham, pp 415–442.",
+ 9:"Li P, Mai K, Trushenski J, Wu G (2009) New developments in fish amino acid nutrition. Amino Acids 37:43–53.",
+ 10:"Kaushik SJ, Seiliez I (2010) Protein and amino acid nutrition and metabolism in fish: current knowledge and future needs. Aquac Res 41:322–332.",
+ 11:"Lansard M, Panserat S, Plagnes-Juan E, Seiliez I, Skiba-Cassy S (2010) Integration of insulin and amino acid signals that regulate hepatic metabolism-related gene expression in rainbow trout: role of TOR. Amino Acids 39:801–810.",
+ 12:"Dai W, Panserat S, Plagnes-Juan E, Seiliez I, Skiba-Cassy S (2015) Amino acids attenuate insulin action on gluconeogenesis and promote fatty acid biosynthesis via mTORC1 signaling pathway in trout hepatocytes. Cell Physiol Biochem 36:1084–1100.",
+ 13:"Jubouri M, Talarico GGM, Weber J-M, Mennigen JA (2021) Alanine alters the carbohydrate metabolism of rainbow trout: glucose flux and cell signaling. J Exp Biol 224:jeb232918.",
+ 14:"Polakof S, Panserat S, Soengas JL, Moon TW (2012) Glucose metabolism in fish: a review. J Comp Physiol B 182:1015–1045.",
+ 15:"Li P, Wu G (2018) Roles of dietary glycine, proline, and hydroxyproline in collagen synthesis and animal growth. Amino Acids 50:29–38.",
+ 16:"Berridge MJ, Irvine RF (1989) Inositol phosphates and cell signalling. Nature 341:197–205.",
+ 17:"Grécias L, Hébert FO, Alves VA, Barber I, Aubin-Horth N (2020) Host behaviour alteration by its parasite: from brain gene expression to functional test. Proc R Soc B 287:20202252.",
+ 18:"Øverli Ø, Páll M, Borg B, Jobling M, Winberg S (2001) Effects of Schistocephalus solidus infection on brain monoaminergic activity in female three-spined sticklebacks. Proc R Soc B 268:1411–1415.",
+ 19:"Scharsack JP, Koch K, Hammerschmidt K (2007) Who is in control of the stickleback immune system: interactions between Schistocephalus solidus and its specific vertebrate host. Proc R Soc B 274:3151–3158.",
+ 20:"Scharsack JP, Wieczorek B, Schmidt-Drewello A, et al. (2021) Climate change facilitates a parasite’s host exploitation via temperature-mediated immunometabolic processes. Glob Change Biol 27:94–107.",
+ 21:"Kochneva A, Borvinskaya E, Smirnov L (2021) Zone of interaction between the parasite and the host: protein profile of the body cavity fluid of Gasterosteus aculeatus infected with Schistocephalus solidus. Acta Parasitol 66:569–583.",
+ 22:"Vijayan MM, Mommsen TP, Glémet HC, Moon TW (1996) Metabolic effects of cortisol treatment in a marine teleost, the sea raven. J Exp Biol 199:1509–1514.",
+ 23:"Berger CS, Laroche J, Maaroufi H, et al. (2021) The parasite Schistocephalus solidus secretes proteins with putative host manipulation functions. Parasit Vectors 14:436.",
+ 24:"Berger CS, Aubin-Horth N (2020) The secretome of a parasite alters its host's behaviour but does not recapitulate the behavioural response to infection. Proc R Soc B 287:20200412.",
+ 25:"Trubiroha A, Kroupova H, Wuertz S, Frank SN, Sures B, Kloas W (2010) Naturally-induced endocrine disruption by the parasite Ligula intestinalis in roach. Gen Comp Endocrinol 166:234–240.",
+ 26:"Geraudie P, Boulangé-Lecomte C, Gerbron M, Hinfray N, Brion F, Minier C (2010) Endocrine effects of the tapeworm Ligula intestinalis in its teleost host, the roach. Parasitology 137:697–704.",
+ 27:"Brown SP, Loot G, Grenfell BT, Guégan JF (2001) Host manipulation by Ligula intestinalis: accident or adaptation? Parasitology 123:519–529.",
+ 28:"Seppälä O, Karvonen A, Valtonen ET (2004) Parasite-induced change in host behaviour and susceptibility to predation in an eye fluke–fish interaction. Anim Behav 68:257–263.",
+ 29:"Hesse T, Nachev M, Khaliq S, et al. (2022) Insights into amino acid fractionation and incorporation by compound-specific carbon isotope analysis of three-spined sticklebacks. Sci Rep 12:11690.",
+ 30:"Andoh T (2007) Amino acids are more important insulinotropins than glucose in a teleost fish, barfin flounder (Verasper moseri). Gen Comp Endocrinol 151:308–317. PMID 17350013",
+ 31:"Carter V, Pierce R, Dufour S, Arme C, Hoole D (2005) The tapeworm Ligula intestinalis inhibits LH expression and puberty in its teleost host, Rutilus rutilus. Reproduction 130:939–945. PMID 16322554"
+};
+
+// ---------- Diagram ----------
+const REGIONS = [
+ {id:"diet", x:20,y:20,w:240,h:160,label:"Diet & feeding",fill:"--r-diet"},
+ {id:"endo", x:280,y:20,w:400,h:160,label:"Host endocrine regulation",fill:"--r-endo"},
+ {id:"brain",x:700,y:20,w:380,h:250,label:"Host brain & behaviour",fill:"--r-brain"},
+ {id:"host", x:20,y:200,w:660,h:200,label:"Host liver, circulation & body cavity",fill:"--r-host"},
+ {id:"neuro",x:700,y:290,w:380,h:170,label:"Neurotransmitter precursors",fill:"--r-neuro"},
+ {id:"para", x:20,y:420,w:660,h:340,label:"S. solidus plerocercoid",fill:"--r-para"},
+ {id:"imm",  x:700,y:480,w:380,h:280,label:"Host immunity & redox",fill:"--r-imm"}
+];
+const N = (id,label,x,y,w,h=40)=>({id,label,x,y,w,h});
+const NODES = [
+ N("prey","Prey: copepods,\nchironomid larvae",40,62,200),
+ N("feed","Feeding efficiency ↓\nhandling time ↑",40,122,200,44),
+ N("insulin","Insulin",300,66,110),
+ N("mtor","mTORC1 / AMPK",425,66,120),
+ N("cortisol","Cortisol\n(HPI axis)",560,66,105),
+ N("liver","Liver metabolism",40,240,150),
+ N("glcH","Host glucose\n(G6P)",210,240,130),
+ N("aaPool","Circulating\namino-acid pool",360,240,150),
+ N("bcf","Body-cavity\nfluid proteins",530,240,135),
+ N("muscle","Muscle protein\nturnover",40,330,150),
+ N("iso","AA isotopes: parasite\n≈ liver ≠ muscle",360,330,150),
+ N("ala","Alanine\n(N carrier)",530,330,135),
+ N("teg","Tegument: LAP,\nnutrient uptake",40,460,150),
+ N("glc","Glucose /\nglycogen",210,460,130),
+ N("glyc","Glycolysis →\npyruvate",360,460,150),
+ N("tca","TCA cycle",530,460,135),
+ N("gng","Gluconeogenesis\n(proposed)",40,550,150),
+ N("gaa","Glucogenic AAs\nAla · Asn · Gln",210,550,130),
+ N("ser","3-PG → serine",360,550,150),
+ N("growth","Parasite growth",210,640,130),
+ N("onec","Ser · Gly · Thr →\none-carbon units",360,640,150),
+ N("secr","Secretome\n(proteins, RPTPs)",530,640,135),
+ N("mono","Monoamines: 5-HT turnover ↑ (hypothalamus,\nbrainstem); 5-HT, NA ↓ (telencephalon)",720,58,340,46),
+ N("inos","G6P → myo-inositol → PIP₂ → IP₃ / DAG",720,128,340,38),
+ N("behav","Behaviour: risk-taking ↑, avoidance ↓",720,196,340,38),
+ N("trp","Trp → 5-HTP → serotonin",720,322,340,34),
+ N("tyr","Tyr → L-DOPA → dopamine → NA",720,366,340,34),
+ N("glu","Glu → GABA · glycine",720,410,340,34),
+ N("burst","Innate: late respiratory burst ↑;\nno clear adaptive response",720,520,340,44),
+ N("gln","Gln → immune-cell\nproliferation",720,578,165),
+ N("arg","Arg → nitric oxide\n(NOS)",895,578,165),
+ N("gsh","Glu · Cys · Gly →\nglutathione",720,632,165),
+ N("sam","Met → SAM\n(methyl donor)",895,632,165),
+ N("temp","Warming: parasite growth ↑, host immunity ↓",720,692,340,38)
+];
+// [from,to,level,via]
+const EDGES = [
+ ["prey","feed","D"],["feed","aaPool","H"],
+ ["liver","glcH","B"],["liver","aaPool","B",[275,214]],["muscle","aaPool","C"],
+ ["aaPool","teg","D"],["glcH","teg","D"],["teg","glc","D"],
+ ["glc","glyc","B"],["glyc","tca","B"],["gaa","glyc","B"],
+ ["gaa","gng","H"],["gng","glc","H"],["ala","glcH","C",[440,305]],
+ ["aaPool","insulin","C"],["insulin","mtor","C"],["mtor","liver","C"],["cortisol","liver","C"],
+ ["cortisol","mono","H"],
+ ["glyc","ser","B"],["ser","onec","B"],["onec","growth","H"],
+ ["glcH","inos","B"],["inos","behav","D"],
+ ["aaPool","trp","B",[640,300]],["trp","mono","H",[680,210]],["mono","behav","D",[1092,150]],
+ ["bcf","burst","D",[700,262]],["burst","behav","H",[1092,380]],
+ ["secr","bcf","D",[692,450]],["secr","behav","D",[688,330]]
+];
+const ek = e => e[0]+">"+e[1];
+
+// ---------- Topics (condensed, ABT-structured text) ----------
+const T = [];
+const topic = o => T.push(o);
+const r = (...n)=>n.map(i=>`<a class="ref" data-ref="${i}">[${i===30?"Andoh":i===31?"Carter":i}]</a>`).join("");
+
+topic({id:"overview",title:"Overview: how to read Figure S1",levels:["D","C","B","H"],nodes:[],edges:[],
+html:`<div class="abt">
+<p><b>And</b> <i>S. solidus</i> grows from a few milligrams to a mass that can exceed that of its host, feeding entirely on the fluids of the stickleback body cavity. Its growth is therefore tied to host carbohydrate and amino-acid metabolism, endocrine control, immunity and, ultimately, behaviour.</p>
+<p><b>But</b> the evidence linking these processes is uneven. Some links are measured in this host–parasite system; others are borrowed from rainbow trout, roach or textbook biochemistry, and several remain untested.</p>
+<p><b>Therefore</b> Figure S1 is a conceptual map, not a flux model. Each arrow carries its evidence level, so the reader can separate what we know from what we propose to test.</p></div>
+<h3>Line styles</h3>
+<ul class="ev">
+<li><span class="badge D">Direct</span><span>Demonstrated in <i>G. aculeatus</i>–<i>S. solidus</i>.</span></li>
+<li><span class="badge C">Comparative</span><span>Demonstrated in other teleosts or fish–cestode systems; transfer to sticklebacks is assumed.</span></li>
+<li><span class="badge B">Biochemistry</span><span>Established pathway; its activity in host or parasite is unquantified.</span></li>
+<li><span class="badge H">Hypothesis</span><span>Mechanistically plausible but not yet tested.</span></li></ul>
+<h3>Where the evidence is strongest</h3>
+<p>Direct work supports four claims: extensive host-to-parasite nutrient transfer, amino-acid-specific metabolic differences between host and parasite, infection-associated immunometabolic regulation, and changes in selected brain signalling systems. The links <i>between</i> these blocks, especially from amino-acid metabolism to endocrine and neuronal control, remain hypotheses.</p>`});
+
+topic({id:"uptake",title:"Nutrient uptake by the plerocercoid",levels:["D"],nodes:["teg","glc","glcH","aaPool"],edges:["aaPool>teg","glcH>teg","teg>glc"],
+html:`<div class="abt">
+<p><b>And</b> after leaving the gut, the plerocercoid lives in the body cavity and takes up everything it needs across its syncytial tegument. Tegument-bound leucine aminopeptidase ${r(1)} suggests extracellular digestion of host oligopeptides, and isolated plerocercoids take up glucose and mobilise glycogen in vitro ${r(2)}.</p>
+<p><b>But</b> neither study quantifies how much peptide hydrolysis contributes to parasite nutrition, nor whether absorbed glucose comes from circulating host glucose, hepatic output or other compartments.</p>
+<p><b>Therefore</b> uptake capacity is established, while the source and relative size of each nutrient stream remain open.</p></div>
+<h3>Evidence</h3><ul class="ev">
+<li><span class="badge D">Direct</span><span>Leucine aminopeptidase activity in isolated tegument ${r(1)}.</span></li>
+<li><span class="badge D">Direct</span><span>Glucose uptake and glycogen use by plerocercoids in vitro; glucose availability affects survival ${r(2)}.</span></li></ul>
+<h3>Open question</h3><div class="test">What fraction of parasite carbon enters as glucose versus amino acids or peptides? Paired <sup>13</sup>C-glucose and <sup>13</sup>C/<sup>15</sup>N-amino-acid tracers in infected fish would partition the streams.</div>`});
+
+topic({id:"feeding",title:"Host feeding and nutrient competition",levels:["D","H"],nodes:["prey","feed","aaPool"],edges:["prey>feed","feed>aaPool"],
+html:`<div class="abt">
+<p><b>And</b> infected sticklebacks eat fewer chironomid larvae before satiation, take longer to handle prey and shift their prey-size preferences ${r(3)}.</p>
+<p><b>But</b> this means the parasite constrains host nutrition in two ways at once: by consuming host metabolites and by reducing what the host takes in, possibly through the mechanical load of a large plerocercoid.</p>
+<p><b>Therefore</b> altered nutrient levels in infected fish cannot be read as a signature of parasite consumption alone.</p></div>
+<h3>Evidence</h3><ul class="ev">
+<li><span class="badge D">Direct</span><span>Reduced intake and longer handling time; altered prey profitability ${r(3)}.</span></li>
+<li><span class="badge H">Hypothesis</span><span>Reduced intake lowers the circulating amino-acid supply available to host and parasite.</span></li></ul>`});
+
+topic({id:"liverflow",title:"Liver-linked nutrient flow: stable isotope evidence",levels:["D","C"],nodes:["liver","glcH","aaPool","iso","muscle","teg"],edges:["liver>glcH","liver>aaPool","aaPool>teg","muscle>aaPool"],
+html:`<div class="abt">
+<p><b>And</b> compound-specific isotope analysis tracks where parasite carbon and nitrogen come from. Over a 90-day infection, δ<sup>13</sup>C of essential amino acids in <i>S. solidus</i> closely matched, and moved in parallel with, the host liver, but diverged from muscle ${r(4,29)}. Over 120 days, δ<sup>15</sup>N of amino acids placed the parasite less than 0.5 trophic levels above host tissues ${r(5)}.</p>
+<p><b>But</b> isotopic similarity does not prove transfer from hepatocytes. The same pattern arises if the parasite feeds on circulating pools shaped by hepatic metabolism, and amino acids differed in how they fractionated, which points to transformation rather than uniform transfer ${r(5,8)}.</p>
+<p><b>Therefore</b> <i>S. solidus</i> assimilates host-derived nutrients from liver-dominated pools, without occupying a conventional extra trophic level.</p></div>
+<h3>Evidence</h3><ul class="ev">
+<li><span class="badge D">Direct</span><span>Parasite δ<sup>13</sup>C of essential AAs tracks liver, not muscle ${r(4)}.</span></li>
+<li><span class="badge D">Direct</span><span>Trophic-position offset &lt;0.5; serine enriched in <sup>15</sup>N relative to liver; alanine enriches progressively during development ${r(5)}.</span></li>
+<li><span class="badge C">Comparative</span><span>In perch infected with liver-dwelling <i>Triaenophorus nodulosus</i>, liver isotope turnover was ~3–5× faster than in uninfected fish ${r(6)}; discrimination depends on parasite site and host tissue ${r(7)}.</span></li></ul>
+<h3>Caveat</h3><p>Isotope values integrate source, enzymatic fractionation, tissue turnover and pool mixing ${r(8)}. Enrichment alone cannot identify the pathway responsible.</p>`});
+
+topic({id:"central",title:"Central carbon metabolism as a shared framework",levels:["B"],nodes:["glc","glyc","tca","gaa"],edges:["glc>glyc","glyc>tca","gaa>glyc"],
+html:`<div class="abt">
+<p><b>And</b> glycolysis converts glucose to pyruvate, which feeds the TCA cycle via acetyl-CoA. TCA intermediates link carbohydrate use to amino-acid and lipid catabolism: alanine enters at pyruvate, aspartate and asparagine at oxaloacetate, glutamate and glutamine at α-ketoglutarate, and valine and methionine at succinyl-CoA. Leucine and lysine are purely ketogenic.</p>
+<p><b>But</b> this is vertebrate textbook biochemistry. Cestodes rely heavily on fermentative pathways in low-oxygen environments, and the presence of an intermediate does not imply that each reaction runs with the same flux or control in the parasite.</p>
+<p><b>Therefore</b> the central pathway in Figure S1 is a common reference map, not a reconstruction of parasite energy metabolism.</p></div>
+<h3>Evidence</h3><ul class="ev">
+<li><span class="badge B">Biochemistry</span><span>Glucogenic and ketogenic routes of amino-acid catabolism; activity and contribution in <i>S. solidus</i> unquantified.</span></li></ul>`});
+
+topic({id:"gng",title:"Amino-acid-derived gluconeogenesis",levels:["H","C"],nodes:["gaa","gng","glc","ala","glcH","liver"],edges:["gaa>gng","gng>glc","gaa>glyc","ala>glcH","mtor>liver"],
+html:`<div class="abt">
+<p><b>And</b> carbon isotope relationships between parasite glucose and amino acids led Hesse et al. to propose that <i>S. solidus</i> glucose derives partly from glucogenic precursors, notably alanine, asparagine and glutamine ${r(4)}. In trout, alanine alters glucose production and disposal ${r(13)}, and high amino-acid supply blunts insulin's suppression of hepatic gluconeogenesis through mTORC1 ${r(12)}.</p>
+<p><b>But</b> the isotope pattern is equally consistent with uptake of host glucose, shared precursor pools, or a mix of assimilation and conversion. No study has measured gluconeogenic activity in the parasite.</p>
+<p><b>Therefore</b> amino-acid-fuelled gluconeogenesis remains a hypothesis, and the progressive alanine <sup>15</sup>N enrichment ${r(5)} may reflect transamination and nitrogen exchange rather than glucose synthesis.</p></div>
+<h3>Evidence</h3><ul class="ev">
+<li><span class="badge H">Hypothesis</span><span>Parasite gluconeogenesis from Ala, Asn, Gln, inferred from isotopes ${r(4)}.</span></li>
+<li><span class="badge C">Comparative</span><span>Alanine infusion lowers glucose appearance and disposal rates in trout ${r(13)}; amino acids attenuate insulin action on gluconeogenesis ${r(12)}.</span></li></ul>
+<h3>Critical test</h3><div class="test">Trace <sup>13</sup>C-labelled alanine, glutamine and asparagine into newly synthesised parasite glucose and glycogen, ideally with position-specific isotope analysis, alongside PEPCK activity in parasite tissue.</div>`});
+
+topic({id:"endo",title:"Insulin and nutrient-sensing pathways",levels:["C","H"],nodes:["insulin","mtor","aaPool","liver"],edges:["aaPool>insulin","insulin>mtor","mtor>liver"],
+html:`<div class="abt">
+<p><b>And</b> in teleosts, amino acids act as signals as well as substrates. In barfin flounder, arginine, alanine, serine and methionine stimulate insulin secretion more strongly than glucose ${r(30)}. In trout hepatocytes, amino acids and insulin jointly regulate glycolytic, gluconeogenic and lipogenic genes via TOR ${r(11,12)}, and AMPK and mTOR integrate energy and nutrient status ${r(14)}.</p>
+<p><b>But</b> none of this has been measured in infected sticklebacks. We have no data on plasma insulin, pancreatic secretion or insulin-receptor activity during infection, and insulin effects on gluconeogenesis vary among species.</p>
+<p><b>Therefore</b> the insulin arm of Figure S1 is a candidate regulatory route through which a parasite-driven shift in amino-acid supply could reshape host glucose homeostasis. Its direction and size are unknown.</p></div>
+<h3>Evidence</h3><ul class="ev">
+<li><span class="badge C">Comparative</span><span>Amino acids are strong insulinotropins in flounder ${r(30)}.</span></li>
+<li><span class="badge C">Comparative</span><span>Insulin–amino acid–mTORC1 regulation of hepatic metabolism in trout ${r(11,12,14)}.</span></li>
+<li><span class="badge H">Hypothesis</span><span><i>S. solidus</i> infection alters host insulin signalling.</span></li></ul>
+<h3>Note</h3><p>mTORC1 integrates amino-acid, growth-factor and energy signals to control protein synthesis and autophagy; AMPK promotes energy-saving responses when ATP is low.</p>`});
+
+topic({id:"stress",title:"Cortisol and stress metabolism",levels:["C","H"],nodes:["cortisol","liver","mono"],edges:["cortisol>liver","cortisol>mono"],
+html:`<div class="abt">
+<p><b>And</b> cortisol raises plasma glucose and up-regulates hepatic alanine and aspartate aminotransferases, glutamate dehydrogenase and PEPCK in sea raven ${r(22)}, linking stress to amino-acid catabolism and glucose production.</p>
+<p><b>But</b> HPI-axis activity and circulating cortisol have not been characterised under the infection conditions represented here.</p>
+<p><b>Therefore</b> stress-driven metabolic remodelling is a plausible, untested route by which infection could redirect host amino acids. It may also contribute to the monoamine changes reported in infected fish ${r(18)}.</p></div>
+<h3>Evidence</h3><ul class="ev">
+<li><span class="badge C">Comparative</span><span>Cortisol induces gluconeogenic and amino-acid-catabolic enzymes in a marine teleost ${r(22)}.</span></li>
+<li><span class="badge H">Hypothesis</span><span>Infection activates the HPI axis in sticklebacks, with metabolic and neural consequences.</span></li></ul>`});
+
+topic({id:"onec",title:"Serine, glycine, threonine and one-carbon metabolism",levels:["D","B","H"],nodes:["glyc","ser","onec","growth"],edges:["glyc>ser","ser>onec","onec>growth"],
+html:`<div class="abt">
+<p><b>And</b> glycine, serine and threonine stand out in both isotope datasets: their δ<sup>13</sup>C indicates substantial transformation ${r(4)}, serine and threonine δ<sup>15</sup>N differ sharply between parasite and host, and glycine δ<sup>15</sup>N shifts in infected host tissues ${r(5)}. Serine is synthesised from 3-phosphoglycerate in three steps and interconverts with glycine via serine hydroxymethyltransferase, feeding folate-dependent one-carbon units into nucleotide synthesis and methylation ${r(15)}.</p>
+<p><b>But</b> no study has measured flux through serine hydroxymethyltransferase, the glycine cleavage system or folate reactions in either partner.</p>
+<p><b>Therefore</b> one-carbon metabolism is the most parsimonious biochemical explanation for the isotope signals and a candidate engine of rapid parasite growth. Its quantitative role remains to be shown.</p></div>
+<h3>Evidence</h3><ul class="ev">
+<li><span class="badge D">Direct</span><span>Distinct C and N isotope behaviour of Gly, Ser, Thr between parasite and host ${r(4,5)}.</span></li>
+<li><span class="badge B">Biochemistry</span><span>3-PG → phosphohydroxypyruvate → phosphoserine → serine; Ser ⇄ Gly via SHMT.</span></li>
+<li><span class="badge H">Hypothesis</span><span>Enhanced one-carbon flux supports parasite biomass growth.</span></li></ul>
+<h3>Critical test</h3><div class="test"><sup>13</sup>C-serine and <sup>15</sup>N-glycine tracing into parasite nucleotides, combined with SHMT expression and activity.</div>`});
+
+topic({id:"inositol",title:"Myo-inositol and phosphoinositide signalling",levels:["D","B"],nodes:["glcH","inos","behav"],edges:["glcH>inos","inos>behav"],
+html:`<div class="abt">
+<p><b>And</b> myo-inositol is made from glucose-6-phosphate and is the backbone of phosphatidylinositol. Phospholipase C cleaves PIP<sub>2</sub> into IP<sub>3</sub>, which releases intracellular calcium, and DAG, which activates protein kinase C, controlling neuronal excitability and transmitter release ${r(16)}. In infected sticklebacks, brain expression of inositol-pathway genes is altered, and lithium, which inhibits inositol monophosphatase, restores some behaviours to uninfected levels ${r(17)}.</p>
+<p><b>But</b> transcripts are not metabolites: we lack measurements of brain myo-inositol, IP<sub>3</sub>, calcium or PKC activity. Lithium also hits other targets, and no parasite molecule is known to act on this pathway.</p>
+<p><b>Therefore</b> the inositol pathway is the best-supported neural candidate, functionally linked to the behavioural phenotype but not yet a complete causal chain.</p></div>
+<h3>Evidence</h3><ul class="ev">
+<li><span class="badge D">Direct</span><span>Altered inositol-pathway gene expression; partial behavioural rescue by lithium ${r(17)}.</span></li>
+<li><span class="badge B">Biochemistry</span><span>G6P → myo-inositol-1-P → myo-inositol → PI → PIP<sub>2</sub> → IP<sub>3</sub> + DAG ${r(16)}.</span></li></ul>`});
+
+topic({id:"neuro",title:"Monoamines and neurotransmitter precursors",levels:["D","B","H"],nodes:["aaPool","trp","tyr","glu","mono","behav"],edges:["aaPool>trp","trp>mono","mono>behav"],
+html:`<div class="abt">
+<p><b>And</b> amino acids supply neurotransmitters: tryptophan gives serotonin, tyrosine gives dopamine and noradrenaline, glutamate gives GABA, and glycine signals directly. Infected females show higher serotonin turnover (5-HIAA/5-HT) in hypothalamus and brainstem and lower serotonin and noradrenaline in the telencephalon ${r(18)}.</p>
+<p><b>But</b> it is unclear whether these changes are caused by the parasite, by immune activation or by poorer nutrition, and no single manipulation of food, immunity, serotonin or stress reproduces the full infected phenotype ${r(17)}.</p>
+<p><b>Therefore</b> behavioural change is multifactorial, and a shift in precursor isotopes or supply should not be read as a change in transmitter synthesis.</p></div>
+<h3>Evidence</h3><ul class="ev">
+<li><span class="badge D">Direct</span><span>Region-specific monoamine changes in infected brains ${r(18)}.</span></li>
+<li><span class="badge D">Direct</span><span>Partial manipulations each alter some behaviours, none all ${r(17)}.</span></li>
+<li><span class="badge B">Biochemistry</span><span>Trp → 5-HTP → 5-HT; Tyr → L-DOPA → DA → NA → adrenaline; Glu → GABA.</span></li>
+<li><span class="badge H">Hypothesis</span><span>Parasite-driven changes in precursor supply alter transmitter synthesis.</span></li></ul>`});
+
+topic({id:"immune",title:"Immune responses and immunometabolism",levels:["D","B","H"],nodes:["bcf","burst","gln","arg","gsh","sam","temp","behav"],edges:["bcf>burst","burst>behav"],
+html:`<div class="abt">
+<p><b>And</b> <i>S. solidus</i> shapes the stickleback immune response over time: respiratory burst rises only late in infection, without the expected early peak, and no clear lymphocyte response develops ${r(19)}. Warming speeds parasite growth while lowering host condition and immune activity, with strong infection-dependent shifts in liver metabolic gene expression ${r(20)}. The body-cavity fluid of infected fish differs in complement, protease-regulation, glycolytic and antioxidant proteins and contains parasite proteins ${r(21)}.</p>
+<p><b>But</b> the amino-acid demands of immunity (glutamine for proliferation, arginine for nitric oxide, Glu/Cys/Gly for glutathione, methionine for SAM) are drawn from general immunometabolism, not from infected sticklebacks.</p>
+<p><b>Therefore</b> the body cavity is an active immunometabolic interface, and competition between host immunity and parasite growth for the same amino acids is a testable prediction.</p></div>
+<h3>Evidence</h3><ul class="ev">
+<li><span class="badge D">Direct</span><span>Delayed innate activation; no clear adaptive response ${r(19)}.</span></li>
+<li><span class="badge D">Direct</span><span>Temperature-dependent immunometabolic regulation; liver transcriptomics ${r(20)}.</span></li>
+<li><span class="badge D">Direct</span><span>Altered host proteome and parasite proteins in body-cavity fluid ${r(21)}.</span></li>
+<li><span class="badge B">Biochemistry</span><span>Gln, Arg, Met, Glu/Cys/Gly, Ser/Gly as immune and redox substrates.</span></li>
+<li><span class="badge H">Hypothesis</span><span>Late innate activation feeds into neuroendocrine signalling and behaviour ${r(19)}.</span></li></ul>`});
+
+topic({id:"secretome",title:"The parasite secretome",levels:["D"],nodes:["secr","bcf","behav"],edges:["secr>bcf","secr>behav"],
+html:`<div class="abt">
+<p><b>And</b> <i>S. solidus</i> secretes proteins with predicted roles in proteolysis, neural processes, immune regulation and cell communication, including receptor-type tyrosine phosphatases ${r(23)}. Injecting secretome into uninfected fish changes some behaviours, such as feeding latency ${r(24)}.</p>
+<p><b>But</b> secretome from infective worms did not reproduce the increased risk-taking of infected fish, and secretome from earlier stages made fish of one population more cautious ${r(24)}. Targets, effective doses and transport of these proteins are unknown.</p>
+<p><b>Therefore</b> secreted molecules are one input that acts together with immunity, energy state and neural signalling, not a single switch for manipulation.</p></div>
+<h3>Evidence</h3><ul class="ev">
+<li><span class="badge D">Direct</span><span>Proteome and secretome characterised by mass spectrometry ${r(23)}.</span></li>
+<li><span class="badge D">Direct</span><span>Secretome alters selected host behaviours, stage- and population-dependently ${r(24)}.</span></li></ul>`});
+
+topic({id:"comparative",title:"Lessons from other fish–parasite systems",levels:["C"],nodes:["insulin","cortisol","iso","behav","liver"],edges:[],
+html:`<div class="abt">
+<p><b>And</b> body-cavity cestodes can disrupt host endocrine systems. In roach, <i>Ligula intestinalis</i> halves pituitary LH and blocks puberty ${r(31)}, lowers sex steroids and raises hepatic IGF-1 mRNA in females ${r(25)}, and halves brain aromatase activity ${r(26)}. Infection also changes habitat use ${r(27)}, and a trematode eye fluke impairs escape behaviour in trout ${r(28)}.</p>
+<p><b>But</b> these systems differ from ours in host physiology, parasite site and the endpoints measured; IGF-1 expression is not insulin secretion, and visual impairment is not neural modulation.</p>
+<p><b>Therefore</b> comparative work shows the mechanisms in Figure S1 are biologically possible, not that they operate in sticklebacks.</p></div>
+<h3>Evidence</h3><ul class="ev">
+<li><span class="badge C">Comparative</span><span>Endocrine disruption by <i>L. intestinalis</i> in roach ${r(31,25,26)}.</span></li>
+<li><span class="badge C">Comparative</span><span>Faster liver isotope turnover in perch infected with <i>T. nodulosus</i> ${r(6)}.</span></li>
+<li><span class="badge C">Comparative</span><span>Parasite-associated changes in habitat use and predator escape ${r(27,28)}.</span></li></ul>`});
+
+topic({id:"next",title:"Limits and next experiments",levels:["H"],nodes:[],edges:[],
+html:`<div class="abt">
+<p><b>And</b> amino-acid-specific isotopes already reveal transfers and transformations that bulk tissue values hide ${r(29,5)}.</p>
+<p><b>But</b> isotope enrichment confounds source, fractionation, turnover and mixing, and changes in circulating amino acids can reflect intake, absorption, proteolysis, transport or parasite uptake ${r(8)}. This matters most for alanine and gluconeogenesis, serine and glycine and one-carbon metabolism, and tryptophan and tyrosine and neurotransmitters.</p>
+<p><b>Therefore</b> the next step is to couple isotope tracing with direct pathway measurements in the same fish.</p></div>
+<h3>Priority experiments</h3><ul class="ev">
+<li><span class="badge H">Tracer</span><span>Labelled alanine, glutamine, serine and glycine traced into parasite glucose, protein and nucleotides; position-specific isotope analysis.</span></li>
+<li><span class="badge H">Pathway</span><span>Enzyme activities (PEPCK, SHMT, IMPase) and metabolomics in host liver, brain and parasite.</span></li>
+<li><span class="badge H">Systemic</span><span>Matched measurements of plasma metabolites, insulin, cortisol, immune activation and brain signalling across infection stages.</span></li></ul>`});
+
+// ---------- Rendering ----------
+const NS="http://www.w3.org/2000/svg";
+const el=(t,a={},p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e};
+const svg=document.getElementById("fig");
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const nodeById=Object.fromEntries(NODES.map(n=>[n.id,n]));
+
+// markers
+const defs=document.getElementById("defs");
+for(const L in LEVELS){const m=el("marker",{id:"ar"+L,viewBox:"0 0 10 10",refX:9,refY:5,markerWidth:7,markerHeight:7,orient:"auto-start-reverse"},defs);
+  el("path",{d:"M0,0 L10,5 L0,10 z",style:`fill:var(--${L})`},m);}
+
+const gR=document.getElementById("regions");
+REGIONS.forEach(R=>{const g=el("g",{class:"region"},gR);el("rect",{x:R.x,y:R.y,width:R.w,height:R.h,rx:12,style:`fill:var(${R.fill})`},g);
+  const t=el("text",{x:R.x+14,y:R.y+22},g);t.textContent=R.label;});
+
+function clip(n,tx,ty){const cx=n.x+n.w/2,cy=n.y+n.h/2,dx=tx-cx,dy=ty-cy;
+  const sx=dx?(n.w/2+3)/Math.abs(dx):Infinity, sy=dy?(n.h/2+3)/Math.abs(dy):Infinity, s=Math.min(sx,sy);
+  return [cx+dx*s,cy+dy*s];}
+const gE=document.getElementById("edges");
+const edgeEls={};
+EDGES.forEach(e=>{const [a,b,L,via]=e;const A=nodeById[a],B=nodeById[b];
+  const ac=[A.x+A.w/2,A.y+A.h/2],bc=[B.x+B.w/2,B.y+B.h/2];
+  let d;
+  if(via){const p1=clip(A,via[0],via[1]),p2=clip(B,via[0],via[1]);d=`M${p1} Q${via} ${p2}`;}
+  else{const p1=clip(A,bc[0],bc[1]),p2=clip(B,ac[0],ac[1]);d=`M${p1} L${p2}`;}
+  const g=el("g",{class:"edge "+L,"data-k":ek(e),"data-l":L},gE);
+  el("path",{class:"vis",d,"marker-end":`url(#ar${L})`},g);
+  const hit=el("path",{class:"hit",d},g);
+  const tt=el("title",{},g);tt.textContent=`${A.label.replace(/\n/g," ")} → ${B.label.replace(/\n/g," ")} (${LEVELS[L].name})`;
+  g.addEventListener("click",()=>openEdge(ek(e)));
+  edgeEls[ek(e)]=g;});
+
+const gN=document.getElementById("nodes");
+const nodeEls={};
+NODES.forEach(n=>{const g=el("g",{class:"node",tabindex:0,role:"button","aria-label":n.label.replace(/\n/g," ")},gN);
+  el("rect",{x:n.x,y:n.y,width:n.w,height:n.h,rx:7},g);
+  const lines=n.label.split("\n");const t=el("text",{x:n.x+n.w/2,"text-anchor":"middle"},g);
+  lines.forEach((ln,i)=>{const s=el("tspan",{x:n.x+n.w/2,y:n.y+n.h/2+(i-(lines.length-1)/2)*15+4.5},t);s.textContent=ln;});
+  g.addEventListener("click",()=>openNode(n.id));
+  g.addEventListener("keydown",ev=>{if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();openNode(n.id);}});
+  nodeEls[n.id]=g;});
+
+// legend toggles
+const shown={D:true,C:true,B:true,H:true};
+const leg=document.getElementById("legend");
+leg.insertAdjacentHTML("beforeend",`<span>Evidence:</span>`);
+for(const L in LEVELS){const b=document.createElement("button");b.className="lg";b.setAttribute("aria-pressed","true");b.title=LEVELS[L].long+" (click to toggle)";
+  b.innerHTML=`<svg viewBox="0 0 26 8"><line x1="1" y1="4" x2="25" y2="4" class="" style="stroke:var(--${L});stroke-width:2.4;${L==='C'?'stroke-dasharray:6 3':L==='B'?'stroke-dasharray:2 3':L==='H'?'stroke-dasharray:1 4;stroke-linecap:round':''}"/></svg>${LEVELS[L].name}`;
+  b.onclick=()=>{shown[L]=!shown[L];b.setAttribute("aria-pressed",shown[L]);
+    Object.values(edgeEls).forEach(g=>{if(g.dataset.l===L)g.classList.toggle("hidden",!shown[L]);});};
+  leg.appendChild(b);}
+
+// chips
+const chips=document.getElementById("chips");
+T.forEach(t=>{const b=document.createElement("button");b.className="chip";b.textContent=t.id==="overview"?"Overview":t.title.replace(/:.*/,"");b.dataset.id=t.id;b.onclick=()=>go(t.id);chips.appendChild(b);});
+
+// panel
+const panel=document.getElementById("panel");
+function highlight(nodes,edges){
+  svg.classList.toggle("focus",nodes.length+edges.length>0);
+  Object.entries(nodeEls).forEach(([k,g])=>g.classList.toggle("hl",nodes.includes(k)));
+  Object.entries(edgeEls).forEach(([k,g])=>g.classList.toggle("hl",edges.includes(k)));
+}
+function refsFor(html){const ids=[...new Set([...html.matchAll(/data-ref="(\d+)"/g)].map(m=>+m[1]))];
+  if(!ids.length)return"";return `<h3>References</h3><ol class="refs">${ids.map(i=>`<li id="ref-${i}"><b>${i===30?"Andoh":i===31?"Carter":"["+i+"]"}</b> ${REFS[i].replace(/doi:(\S+)/,'<a href="https://doi.org/$1">doi:$1</a>')}</li>`).join("")}</ol>`;}
+function render(t){
+  const i=T.indexOf(t);
+  panel.innerHTML=`<div class="kicker">${i===0?"Start here":"Pathway "+i+" of "+(T.length-1)}</div><h2>${t.title}</h2>
+  <div class="badges">${t.levels.map(L=>`<span class="badge ${L}" title="${LEVELS[L].long}">${LEVELS[L].name}</span>`).join("")}</div>
+  ${t.html}${refsFor(t.html)}
+  <div class="nav"><button ${i===0?"disabled":""} data-go="${T[i-1]?.id||""}">← ${T[i-1]?T[i-1].title.replace(/:.*/,""):""}</button>
+  <button ${i===T.length-1?"disabled":""} data-go="${T[i+1]?.id||""}">${T[i+1]?T[i+1].title.replace(/:.*/,""):""} →</button></div>`;
+  panel.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>b.dataset.go&&go(b.dataset.go));
+  panel.querySelectorAll("a.ref").forEach(a=>a.onclick=()=>{const li=document.getElementById("ref-"+a.dataset.ref);if(li){li.scrollIntoView({behavior:"smooth",block:"center"});li.classList.add("flash");setTimeout(()=>li.classList.remove("flash"),1400);}});
+  highlight(t.nodes,t.edges);
+  document.querySelectorAll(".chip").forEach(c=>c.classList.toggle("on",c.dataset.id===t.id));
+}
+function go(id){if(location.hash!=="#"+id)location.hash=id;else route();}
+function route(){const id=location.hash.slice(1);render(T.find(t=>t.id===id)||T[0]);}
+window.addEventListener("hashchange",route);
+
+function chooser(title,sub,topics,nodes,edges){
+  if(topics.length===1){go(topics[0].id);return;}
+  highlight(nodes,edges);
+  document.querySelectorAll(".chip").forEach(c=>c.classList.remove("on"));
+  panel.innerHTML=`<div class="kicker">${sub}</div><h2>${title}</h2><p>This element appears in several pathways. Choose one:</p>
+  <div class="chooser">${topics.map(t=>`<button data-go="${t.id}">${t.title}</button>`).join("")}</div>`;
+  panel.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));
+}
+function openNode(id){const ts=T.filter(t=>t.nodes.includes(id));
+  if(!ts.length)return;chooser(nodeById[id].label.replace(/\n/g," "),"Box",ts,[id],[]);}
+function openEdge(k){const ts=T.filter(t=>t.edges.includes(k));const [a,b]=k.split(">");
+  const L=edgeEls[k].dataset.l;
+  if(!ts.length)return;chooser(`${nodeById[a].label.replace(/\n/g," ")} → ${nodeById[b].label.replace(/\n/g," ")}`,`Arrow · ${LEVELS[L].name}`,ts,[a,b],[k]);}
+route();
+</script>
+</body>
+</html>
